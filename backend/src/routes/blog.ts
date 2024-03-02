@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import {z} from 'zod'
+import { BlogPutInput, BlogPostInput, blogPutInput, blogPostInput} from "@69.code.dev/medium-common"
 import { decode, verify } from "hono/jwt";
 
 
@@ -14,17 +14,6 @@ export const blogRouter = new Hono<{
         userId : string
     }
   }>();
-
-const blogSchema = z.object({
-    title : z.string(),
-    content : z.string()
-})
-
-const schema = z.object({
-    id : z.string(),
-    title : z.string(),
-    content : z.string()
-})
 
 blogRouter.use("/*", async (c, next) => {
     const jwt = c.req.header('Authorization');
@@ -97,7 +86,7 @@ blogRouter.put('/',async (c) => {
     try{
 
         const body = await c.req.json();
-        const parsedData = schema.safeParse(body);
+        const parsedData = blogPutInput.safeParse(body);
 
         if(!parsedData.success){
             c.status(411);
@@ -139,7 +128,7 @@ blogRouter.put('/',async (c) => {
 blogRouter.post('/', async (c) => {
     try{
         const body = await c.req.json();
-        const parsedData = blogSchema.safeParse(body);
+        const parsedData = blogPostInput.safeParse(body);
 
         if(!parsedData.success){
             c.status(411);

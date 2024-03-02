@@ -1,14 +1,11 @@
 import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import {z} from 'zod'
+import {signUpInput, signInInput} from "@69.code.dev/medium-common"
 import { decode, sign, verify } from 'hono/jwt'
 // import * as bcrypt from 'bcrypt'
 
-const schema = z.object({
-  email : z.string(),
-  password : z.string()
-})
+
 
 export const userRouter = new Hono<{
     Bindings : {
@@ -22,7 +19,7 @@ userRouter.post('/signup', async (c) => {
     try {
       const body = await c.req.json();
       // Parse request body and validate against schema
-      const parsedData = schema.safeParse(body);
+      const parsedData = signUpInput.safeParse(body);
       if (!parsedData.success) {
         c.status(400)
         return c.json({ msg: "Invalid payload" });
@@ -61,7 +58,7 @@ userRouter.post('/signup', async (c) => {
     try {
       const body = await c.req.json();
       // Parse request body and validate against schema
-      const parsedData = schema.safeParse(body);
+      const parsedData = signInInput.safeParse(body);
       if (!parsedData.success) {
         c.status(400)
         return c.json({ msg: "Invalid payload" });
