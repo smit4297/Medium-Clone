@@ -15,7 +15,6 @@ export const userRouter = new Hono<{
   }>();
 
 userRouter.post('/signup', async (c) => {
-    console.log( c.env.JWT_SECRET)
     try {
       const body = await c.req.json();
       // Parse request body and validate against schema

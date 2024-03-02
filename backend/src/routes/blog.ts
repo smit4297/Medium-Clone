@@ -27,7 +27,6 @@ blogRouter.use("/*", async (c, next) => {
         c.status(401);
         return c.json({ error: "unauthorized" });
     }
-    console.log(payload)
     c.set('userId', payload.id);
     await next(); // Ensure you're awaiting next() here
 });
