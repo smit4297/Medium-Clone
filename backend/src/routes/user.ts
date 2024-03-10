@@ -5,8 +5,6 @@ import {signUpInput, signInInput} from "@69.code.dev/medium-common"
 import { decode, sign, verify } from 'hono/jwt'
 // import * as bcrypt from 'bcrypt'
 
-
-
 export const userRouter = new Hono<{
     Bindings : {
       DATABASE_URL : string;
@@ -23,7 +21,7 @@ userRouter.post('/signup', async (c) => {
         c.status(400)
         return c.json({ msg: "Invalid payload" });
       }
-      const { email, password } = parsedData.data;
+      const { email, password, name } = parsedData.data;
       // Initialize PrismaClient
       const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
@@ -33,7 +31,9 @@ userRouter.post('/signup', async (c) => {
       const user = await prisma.user.create({
         data: {
           email: email,
-          password: password // Hash password if necessary
+          password: password,
+          name: name
+           // Hash password if necessary
         }
       });
   
@@ -76,6 +76,7 @@ userRouter.post('/signup', async (c) => {
         }
       })
       if(!user){
+        c.status(401);
         return c.json({msg: "incorrect email/password."})
       }
       console.log(user);
