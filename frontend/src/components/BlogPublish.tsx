@@ -19,15 +19,18 @@ export  function BlogPublish() {
     async function sendRequest() {
       try {
         const response = await axios.post(
-          `${BACKEND_URL}/api/v1/blog`,
-          postInputs
-        );
-    
+            `${BACKEND_URL}/api/v1/blog`,
+            postInputs,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        }
+          );
+          
         if (response.status === 200) {
           // Assuming the backend responds with status 200 upon success
-          const jwt = response.data.token;
-          localStorage.setItem("token", jwt);
-          navigate("/blogs");
+          navigate(`/blog/${response.data.id}`);
         } else {
           // Handle unexpected response status codes
           setError("Unexpected response from the server");

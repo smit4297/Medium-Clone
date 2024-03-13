@@ -1,4 +1,4 @@
-import { AppBar } from "../components/AppBar";
+
 import BlogCard from "../components/BlogCard"
 import { ServerError } from "../components/ServerError";
 import { useBlogs } from "../hooks";
@@ -22,7 +22,7 @@ export const Blogs = () => {
 
     return (
         <>
-        <AppBar isLoggedin = {true} name="smit patel"/>
+       
         <div className="max-w-2xl mx-auto my-8 px-4 md:px-0">
             <div className="flex flex-col md:flex-row justify-between items-center mb-4">
                 {/* <button className="rounded-full border border-gray-700 px-4 py-2 mb-2 md:mb-0">For you</button>
@@ -35,7 +35,6 @@ export const Blogs = () => {
                 title={blog.title}
                 content={blog.content}
                 publishedDate={blog.createdAt}/>)}
-                
             </div>
         </div>
         </>

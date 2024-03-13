@@ -1,16 +1,27 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface AppBarProps {
     isLoggedin : boolean;
-    name : string
+
 }
 
-export const AppBar = ({isLoggedin, name}: AppBarProps) => {
+export const AppBar = ({isLoggedin}: AppBarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/signup");
+  };
+
+  const handleSignout = () => {
+    localStorage.removeItem("token");
+    navigate("/signin");
   };
 
   return (
@@ -54,22 +65,22 @@ export const AppBar = ({isLoggedin, name}: AppBarProps) => {
         <nav className={`md:flex items-center space-x-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
         {isLoggedin === true ? (
             <>
-                
+                <Link to={'/post'}>
                 <a className="text-sm font-medium hover:text-gray-700" href="#">
                 Write
               </a>
+              </Link>
               
-              <a className="text-sm font-medium hover:text-gray-700" href="#">
-                {name}
-              </a>
-              <button className="bg-green-600 text-white text-sm px-4 py-2 rounded-full hover:bg-green-700">
+              <button onClick={handleSignout} className="bg-green-600 text-white text-sm px-4 py-2 rounded-full hover:bg-green-700">
               Sign out
             </button></>
               ) :  <>
+              <Link to={'/signin'}>
             <a className="text-sm font-medium hover:text-gray-700" href="#">
               Sign in
             </a>
-            <button className="bg-green-600 text-white text-sm px-4 py-2 rounded-full hover:bg-green-700">
+            </Link>
+            <button onClick={handleClick} className="bg-green-600 text-white text-sm px-4 py-2 rounded-full hover:bg-green-700">
               Sign up
             </button></>}
         </nav>
@@ -77,3 +88,6 @@ export const AppBar = ({isLoggedin, name}: AppBarProps) => {
     </header>
   );
 };
+
+
+
