@@ -32,7 +32,7 @@ userRouter.post('/signup', async (c) => {
         data: {
           email: email,
           password: password,
-          name: name
+          name:name
            // Hash password if necessary
         }
       });

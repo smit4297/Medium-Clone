@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignUpInput, SignInInput } from "@69.code.dev/medium-common";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { ServerError } from "./ServerError";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const navigate = useNavigate();
@@ -34,19 +35,22 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       } else {
         // Handle unexpected response status codes
         setError("Unexpected response from the server");
+        <ServerError errorContent={error}></ServerError>
       }
-    } catch (error) {
-      console.log(error)
-      if (axios.isAxiosError(error)) {
-        if (error.response && error.response.data && error.response.data.msg) {
+    } catch (e) {
+      console.log(e)
+      if (axios.isAxiosError(e)) {
+        if (e.response && e.response.data && e.response.data.msg) {
           // If the backend responds with a message
-          setError(error.response.data.msg);
+          setError(e.response.data.msg);
         } else {
           // Handle other types of errors
           setError("Error while signing up");
+          <ServerError errorContent={error}></ServerError>
         }
       }else{
         setError("Error while signing up");
+        <ServerError errorContent={error}></ServerError>
       }
       
     }
