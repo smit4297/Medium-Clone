@@ -1,4 +1,5 @@
 
+import { BlogSkeleton } from "../components/BlogSkeleton";
 import { ServerError } from "../components/ServerError";
 import { useBlog } from "../hooks"
 import {   useParams } from "react-router-dom";
@@ -9,7 +10,7 @@ export const Blog = () => {
     const { loading, blog, error } = useBlog({ id: id || "" });
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <BlogSkeleton></BlogSkeleton>
     }
 
     if (error || !blog) {

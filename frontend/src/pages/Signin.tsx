@@ -1,7 +1,11 @@
 import { Auth } from "../components/Auth"
 
-export const Signin = () => {
+interface SigninProps {
+  onTokenChange: (isLoggedIn: boolean) => void;
+}
+
+export const Signin: React.FC<SigninProps> = ({ onTokenChange }) => {
       return (
-        <Auth type={"signin"}/>
+        <Auth type={"signin"} onTokenChange={onTokenChange}/>
       )
 }

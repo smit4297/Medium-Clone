@@ -5,7 +5,9 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { ServerError } from "./ServerError";
 
-export const Auth = ({ type }: { type: "signup" | "signin" }) => {
+
+
+export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTokenChange: (isLoggedIn: boolean) => void }) => {
   const navigate = useNavigate();
   const [postInputs, setPostInputs] = useState<SignUpInput | SignInInput>(
     type === "signup"
@@ -31,6 +33,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
         // Assuming the backend responds with status 200 upon success
         const jwt = response.data.token;
         localStorage.setItem("token", jwt);
+        onTokenChange(true);
         navigate("/blogs");
       } else {
         // Handle unexpected response status codes

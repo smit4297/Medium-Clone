@@ -27,11 +27,11 @@ function App() {
     <>
       <BrowserRouter>
 
-        <AppBar isLoggedin={isLoggedin} />
+        <AppBar isLoggedin={isLoggedin}  onTokenChange={setIsLoggedin} />
     
         <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup onTokenChange={setIsLoggedin} />} />
+          <Route path="/signin" element={<Signin onTokenChange={setIsLoggedin}/>} />
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/post" element={<BlogWrite />} />

@@ -1,5 +1,6 @@
 
 import BlogCard from "../components/BlogCard"
+import { BlogCardSkeleton } from "../components/BlogCardSkeleton";
 import { ServerError } from "../components/ServerError";
 import { useBlogs } from "../hooks";
 
@@ -7,9 +8,11 @@ export const Blogs = () => {
 
     const {loading, blogs, error} = useBlogs();
     if(loading){
-        return <div>
-            loading...
-        </div>
+         return <>
+         <BlogCardSkeleton></BlogCardSkeleton>
+         <BlogCardSkeleton></BlogCardSkeleton>
+         <BlogCardSkeleton></BlogCardSkeleton>
+         </>
     }
 
     if (error || !blogs) {

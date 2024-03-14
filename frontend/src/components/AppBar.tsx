@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
 interface AppBarProps {
     isLoggedin : boolean;
-
+    onTokenChange: (isLoggedIn: boolean) => void;
 }
 
-export const AppBar = ({isLoggedin}: AppBarProps) => {
+export const AppBar = ({isLoggedin, onTokenChange}: AppBarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -21,6 +20,7 @@ export const AppBar = ({isLoggedin}: AppBarProps) => {
 
   const handleSignout = () => {
     localStorage.removeItem("token");
+    onTokenChange(false);
     navigate("/signin");
   };
 
