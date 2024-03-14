@@ -1,7 +1,6 @@
-import { BlogPublish } from "../components/BlogPublish"
+import { BlogPublish } from "../components/BlogPublish";
+import { Unauthorized } from "../components/Unauthorized";
 
-
-export const BlogWrite = () => {
-    return <BlogPublish></BlogPublish>
-
-}
+export const BlogWrite = ({ isLoggedin }: { isLoggedin: boolean }) => {
+    return isLoggedin ? <BlogPublish /> : <Unauthorized />;
+  };

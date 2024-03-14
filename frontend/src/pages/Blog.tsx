@@ -1,25 +1,32 @@
 
+import BlogFoundError from "../components/BlogFoundError";
 import { BlogSkeleton } from "../components/BlogSkeleton";
 import { ServerError } from "../components/ServerError";
+import { Unauthorized } from "../components/Unauthorized";
 import { useBlog } from "../hooks"
-import {   useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export const Blog = () => {
     const { id } = useParams();
-    console.log(id)
     const { loading, blog, error } = useBlog({ id: id || "" });
 
     if (loading) {
         return <BlogSkeleton></BlogSkeleton>
     }
 
-    if (error || !blog) {
-        // Redirect to unauthorized page or handle error
-        // if (error) {
-            
-        // }
-        return <ServerError errorContent="something went wrong"></ServerError>// Or render an error message
+    if(error === "unauthorized"){
+        return <Unauthorized></Unauthorized>
     }
+
+     if (error) {
+        // Render ServerError component with the error message
+        return <ServerError errorContent={error} />;
+    }
+    
+      if (!blog) {
+        // Handle the case where blogs are empty (optional)
+        return <BlogFoundError></BlogFoundError>
+      }
 
     return (
         <div className="max-w-5xl mx-auto p-8">

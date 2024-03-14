@@ -7,7 +7,7 @@ export  function ServerError({errorContent} : {errorContent : string}) {
           <div className="flex flex-col gap-2">
             <h2 className="text-lg font-semibold">Internal Server Error</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              {errorContent}. Please try again later.
+              {errorContent}
             </p>
           </div>
         </div>

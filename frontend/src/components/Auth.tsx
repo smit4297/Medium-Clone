@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignUpInput, SignInInput } from "@69.code.dev/medium-common";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import { ServerError } from "./ServerError";
 
 
 
 export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTokenChange: (isLoggedIn: boolean) => void }) => {
   const navigate = useNavigate();
-  const [postInputs, setPostInputs] = useState<SignUpInput | SignInInput>(
+  type AuthInputType = SignUpInput | SignInInput;
+  const [postInputs, setPostInputs] = useState<AuthInputType>(
     type === "signup"
       ? {
           name: "",
@@ -21,7 +21,37 @@ export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTo
           password: "",
         }
   );
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = async () => {
+    setIsLoading(true); // Set loading state before sending request
+    await sendRequest(); // Send login request
+    setIsLoading(false); // Reset loading state after request
+  };
+
+  
   const [error, setError] = useState<string>("");
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    let errorMsg = ""
+    if ("name" in postInputs && !postInputs.name) {
+         errorMsg = "Name is required\n";
+    }
+    else if (!postInputs.email) {
+      errorMsg = errorMsg += "email is required\n";
+    }
+    else if (!postInputs.password) {
+      errorMsg = errorMsg += "password is required";
+  }
+
+    setError(errorMsg);
+    if (errorMsg.length === 0) {
+      handleClick();
+    }
+  };
+
   async function sendRequest() {
     try {
       const response = await axios.post(
@@ -38,7 +68,6 @@ export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTo
       } else {
         // Handle unexpected response status codes
         setError("Unexpected response from the server");
-        <ServerError errorContent={error}></ServerError>
       }
     } catch (e) {
       console.log(e)
@@ -49,17 +78,16 @@ export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTo
         } else {
           // Handle other types of errors
           setError("Error while signing up");
-          <ServerError errorContent={error}></ServerError>
         }
       }else{
         setError("Error while signing up");
-        <ServerError errorContent={error}></ServerError>
       }
       
     }
   }
   
   return (
+
     <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -78,8 +106,8 @@ export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTo
           </Link>
         </p>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md text-black">
+        <div className="bg-white py-8 px-4 shadow-2xl sm:rounded-lg sm:px-10">
           <div  className="space-y-6" >
             <div>
               {type === "signup" ? (
@@ -121,13 +149,42 @@ export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTo
               />
             </div>
             <div>
-              <button
-                onClick={sendRequest}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              
+
+              {/* <button
+                onClick={handleClick}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+                  isLoading ? 'animate-spin' : ''
+                }`}
                 type="submit"
               >
                 {type === "signup" ? "Sign up" : "Sign in"}
+              </button> */}
+              <form onSubmit={handleSubmit}>
+             <button
+               
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+                  isLoading ? 'h-8 shrink' : ''
+                }`}
+                type="submit"
+                disabled={isLoading} // Disable button while loading
+              >
+                <span className="flex items-center">
+                  {isLoading ? (
+                    <>
+                      <span className="animate-ping mr-1 h-2 w-2 rounded-full bg-white"></span>
+                      <span className="animate-ping mr-1 h-2 w-2 rounded-full bg-white"></span>
+                      <span className="animate-ping h-2 w-2 rounded-full bg-white"></span>
+                    </>
+                  ) : (
+                    <>
+                      {type === "signup" ? "Sign up" : "Sign in"}
+                    </>
+                  )}
+                </span>
               </button>
+              </form>
+
             </div>
           </div>
           <br></br>

@@ -21,22 +21,21 @@ blogRouter.use("/*", async (c, next) => {
         const jwt = c.req.header('Authorization');
         if (!jwt) {
             c.status(401);
-            return c.json({ error: "unauthorized" });
+            return c.json({ msg: "unauthorized" });
         }
-        console.log(jwt);
+       
         const token = jwt.split(' ')[1];
         const payload = await verify(token, c.env.JWT_SECRET);
         if (!payload) {
             c.status(401);
-            return c.json({ error: "unauthorized" });
+            return c.json({ msg: "unauthorized" });
         }
         c.set('userId', payload.id);
         await next(); // Ensure you're awaiting next() here
     }catch(e){
-        console.log(e)
-        return  c.json({
-            msg: "Unauthorized"
-        })
+        
+        c.status(401);
+            return c.json({ msg: "unauthorized" });
     }
    
 });
@@ -186,8 +185,6 @@ blogRouter.post('/', async (c) => {
                 title : title,
                 content : content,
                 authorId : c.get("userId")
-                // authorId : "6494c600-f07f-4f8f-b001-ce3f115bdfab"
-
             }
         })
 

@@ -34,7 +34,7 @@ function App() {
           <Route path="/signin" element={<Signin onTokenChange={setIsLoggedin}/>} />
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/blogs" element={<Blogs />} />
-          <Route path="/post" element={<BlogWrite />} />
+          <Route path="/post" element={<BlogWrite isLoggedin={isLoggedin}/>} />
         </Routes>
       </BrowserRouter>
     </>
