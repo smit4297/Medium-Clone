@@ -6,6 +6,8 @@ import { Blogs } from './pages/Blogs'
 import { BlogWrite } from './pages/BlogWrite'
 import { AppBar } from './components/AppBar'
 import { useEffect, useState } from 'react'
+import HomePage from './pages/Home'
+
 
 
 function App() {
@@ -27,14 +29,15 @@ function App() {
     <>
       <BrowserRouter>
 
-        <AppBar isLoggedin={isLoggedin}  onTokenChange={setIsLoggedin} />
+        <AppBar isLoggedIn={isLoggedin}  onTokenChange={setIsLoggedin} />
     
         <Routes>
           <Route path="/signup" element={<Signup onTokenChange={setIsLoggedin} />} />
           <Route path="/signin" element={<Signin onTokenChange={setIsLoggedin}/>} />
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/blogs" element={<Blogs />} />
-          <Route path="/post" element={<BlogWrite isLoggedin={isLoggedin}/>} />
+          <Route path="/post" element={<BlogWrite isLoggedIn={isLoggedin}/>} />
+          <Route path="/" element={<HomePage isLoggedIn={isLoggedin}/>} />
         </Routes>
       </BrowserRouter>
     </>

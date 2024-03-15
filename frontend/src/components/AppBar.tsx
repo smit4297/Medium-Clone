@@ -1,12 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 interface AppBarProps {
-    isLoggedin : boolean;
-    onTokenChange: (isLoggedIn: boolean) => void;
+  isLoggedIn: boolean;
+  onTokenChange: (isLoggedIn: boolean) => void;
 }
 
-export const AppBar = ({isLoggedin, onTokenChange}: AppBarProps) => {
+const PopoutLayer = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-lg p-4">
+      {children}
+    </div>
+  );
+};
+
+export const AppBar = ({ isLoggedIn, onTokenChange }: AppBarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPopoutOpen, setIsPopoutOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -24,25 +34,18 @@ export const AppBar = ({isLoggedin, onTokenChange}: AppBarProps) => {
     navigate("/signin");
   };
 
-  return (
-    <header className="bg-white px-4 py-2 shadow-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+  const togglePopout = () => {
+    setIsPopoutOpen(!isPopoutOpen);
+  };
 
-        <Link to={"/blogs"}>
-        <div className="flex items-center space-x-4">
-          {/* <img
-            alt="Logo"
-            className="h-10 w-10"
-            height="40"
-            src="/placeholder.svg"
-            style={{
-              aspectRatio: "40/40",
-              objectFit: "cover",
-            }}
-            width="40"
-          /> */}
-          <h1 className="text-xl font-semibold">Medium</h1>
-        </div>
+  return (
+    <header className="bg-grey px-4 py-2 shadow-lg">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <Link to={"/"}>
+          <div className="flex items-center space-x-4">
+            {/* <img alt="Logo" className="h-10 w-10" height="40" src="/placeholder.svg" style={{ aspectRatio: "40/40", objectFit: "cover", }} width="40" /> */}
+            <h1 className="text-xl font-semibold">Medium</h1>
+          </div>
         </Link>
         <nav className="md:hidden">
           <button onClick={toggleMenu} className="text-gray-600 focus:outline-none">
@@ -63,31 +66,49 @@ export const AppBar = ({isLoggedin, onTokenChange}: AppBarProps) => {
           </button>
         </nav>
         <nav className={`md:flex items-center space-x-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
-        {isLoggedin === true ? (
+          {isLoggedIn === true ? (
             <>
-                <Link to={'/post'}>
+              <Link to={'/post'}>
                 <a className="text-sm font-medium hover:text-gray-700" href="#">
-                Write
-              </a>
+                  Write
+                </a>
               </Link>
-              
-              <button onClick={handleSignout} className="bg-green-600 text-white text-sm px-4 py-2 rounded-full hover:bg-green-700">
-              Sign out
-            </button></>
-              ) :  <>
+              <button
+                onClick={togglePopout}
+                className="bg-green-600 text-white text-sm px-4 py-2 rounded-full hover:bg-green-700"
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <>
               <Link to={'/signin'}>
-            <a className="text-sm font-medium hover:text-gray-700" href="#">
-              Sign in
-            </a>
-            </Link>
-            <button onClick={handleClick} className="bg-green-600 text-white text-sm px-4 py-2 rounded-full hover:bg-green-700">
-              Sign up
-            </button></>}
+                <a className="text-sm font-medium hover:text-gray-700" href="#">
+                  Sign in
+                </a>
+              </Link>
+              <button
+                onClick={handleClick}
+                className="bg-green-600 text-white text-sm px-4 py-2 rounded-full hover:bg-green-700"
+              >
+                Sign up
+              </button>
+            </>
+          )}
         </nav>
       </div>
+      {isPopoutOpen && (
+        <PopoutLayer>
+          <div className="flex justify-center">
+            <button
+              onClick={handleSignout}
+              className="bg-red-600 text-white text-sm px-4 py-2 rounded-full hover:bg-red-700"
+            >
+              Sign out
+            </button>
+          </div>
+        </PopoutLayer>
+      )}
     </header>
   );
 };
-
-
-
