@@ -13,7 +13,7 @@ const HomePage = ({isLoggedIn} : {isLoggedIn : boolean}) => {
             Discover, share, and engage with captivating stories.
           </p>
           <div className="flex justify-center space-x-4 animate-bounce">
-            {isLoggedIn ? null : <button className="bg-black text-white px-6 py-3 rounded-md font-semibold hover:bg-gray-800 transition-colors duration-300">
+            {isLoggedIn ? null : <button onClick={() => {navigate('/signin')}} className="bg-black text-white px-6 py-3 rounded-md font-semibold hover:bg-gray-800 transition-colors duration-300">
               Get Started
             </button >}
             <button onClick={() => {
