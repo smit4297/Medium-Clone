@@ -1,6 +1,6 @@
 import { BlogPostInput } from "@69.code.dev/medium-common";
 import { useState } from "react";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../env";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Unauthorized } from "./Unauthorized";

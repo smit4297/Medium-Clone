@@ -2,8 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SignUpInput, SignInInput } from "@69.code.dev/medium-common";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
-
+import { BACKEND_URL } from '../env';
 
 
 export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTokenChange: (isLoggedIn: boolean) => void }) => {
