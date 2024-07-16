@@ -1,5 +1,3 @@
-Here is an updated version of your README file with the additional Prisma steps included.
-
 ```markdown
 # Medium-Clone
 
