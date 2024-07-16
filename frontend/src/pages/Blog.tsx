@@ -53,7 +53,7 @@ export const Blog = () => {
                         </div>
                         <h3 className="text-lg lg:text-xl font-semibold mt-4">{blog.author.name}</h3>
                         <p className="text-sm lg:text-base text-center mt-2">
-                            Master of mirth, purveyor of puns, and the funniest person in the kingdom.
+                            Good Human.
                         </p>
                     </div>
                 </div>

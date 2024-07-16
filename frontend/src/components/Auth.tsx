@@ -194,14 +194,13 @@ export const Auth = ({ type, onTokenChange }: { type: "signup" | "signin",  onTo
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <blockquote className="text-center">
             <p className="text-lg font-medium text-gray-900">
-              “The customer service I received was exceptional. The support team
-              went above and beyond to address my concerns.”
+              “I created this Medium clone for fun and to experiment with web development. 
+    I hope you enjoy exploring the content and features as much as I enjoyed building it!”
             </p>
             <footer className="mt-4">
               <p className="text-base font-semibold text-gray-700">
-                Jules Winnfield
+                Smit Patel
               </p>
-              <p className="text-sm text-gray-500">CEO, Acme Inc</p>
             </footer>
           </blockquote>
         </div>
