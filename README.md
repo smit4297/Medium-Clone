@@ -1,7 +1,7 @@
 Here is an updated version of your README file with the additional Prisma steps included.
 
 ```markdown
-# Your Project Name
+# Medium-Clone
 
 This project consists of a backend service and a frontend application.
 
@@ -23,9 +23,8 @@ project-root/
 ### Backend Setup
 
 1. Navigate to the backend directory:
-   ```sh
+
    cd backend
-   ```
 
 2. Create a `.env` file in the backend directory with the following content:
    ```env

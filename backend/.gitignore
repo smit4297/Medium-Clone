@@ -1,13 +1,23 @@
+# Node modules
 node_modules
-dist
-.wrangler
-.dev.vars
 
-# Change them to your taste:
+# Build outputs
+dist
+
+# Wrangler files
+.wrangler
+
+# Environment variables
+.env
+.env.*.local
+.env.local
+
+# Lock files
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
 bun.lockb
 
-.env
+# Wranger config
 wrangler.toml
+wrangler.toml.local
